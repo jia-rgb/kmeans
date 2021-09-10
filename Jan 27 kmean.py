@@ -4,7 +4,7 @@ Created on Wed Jan 29 09:37:59 2020
 
 @author: jejia
 """
-    #open database connection = ODBC
+    #open database connection = database
 import csv
 import pyodbc
 import pandas as pd
@@ -14,12 +14,12 @@ import pandas as pd
 #%%
 conn = pyodbc.connect(
             'DRIVER={SQL Server};\
-            SERVER=devsentineltrainingodsserver.database.windows.net;DATABASE=TrainingODS_Test;\
-            UID=devTestUser;PWD=odsDev2856!')
+            SERVER=server.database.windows.net;DATABASE=database;\
+            UID=xxx;PWD=xx')
 #test with single table
 #cursor = conn.cursor()
-#dftest = cursor.execute('SELECT*FROM TrainingODS_Test.dbo.Assessment')
-#with open(r'C:\Users\jejia\Desktop\DataScience\1 data pilots\Chaojin1.csv', 'w', newline='') as csvfile:
+#dftest = cursor.execute('SELECT*FROM database.dbo.tablename')
+#with open(r'C:\Users\jejia\Desktop\DataScience\1.csv', 'w', newline='') as csvfile:
 #    writer = csv.writer(csvfile)
 #    writer.writerow([x[0] for x in cursor.description])  # column headers
 #    for row in dftest:
@@ -29,37 +29,29 @@ conn = pyodbc.connect(
 #conn.setencoding(cursor, conn)
 #for row in cursor:
 
-#cursor.to_csv(r'C:\Users\jejia\Desktop\DataScience\1 data pilots\Chaojin1.csv')
+#cursor.to_csv(r'C:\Users\jejia\Desktop\DataScience\11.csv')
     
 #%%
 
-startDate = '2019-07-01'
-endDate = '2019-12-31' 
+startDate = 'dateformat'
+endDate = 'dateformat' 
 query_session ='''
 SELECT distinct
          
-            TrainingSession.TrainingSessionId,
-            TrainingSession.StartTime as TrainingSessionStartTime,
-            TrainingSession.EndTime as TrainingSessionEndTime,
-            Assessment.AssessmentId,
-            AssessmentDefinition.Name as AssessmentName,
-            Assessment.StartTime as AssessmentStartTime,
-            Assessment.EndTime as AssessmentEndTime,
-            AssessmentCrewMember.AssessmentCrewMemberId,
-            AssessmentCrewMember.CrewMemberId,
-            AssessmentRole.Name as AssessmentRoleName,
-            CASE
-                WHEN AssessmentCrewMember.OverallGrade='PASS' or AssessmentCrewMember.OverallGrade='PPASS' THEN 'PASS'
-                WHEN AssessmentCrewMember.OverallGrade='FAIL' THEN 'FAIL'
+            tablename.columnname,
+            tablename.column2 as name,
+            
+                WHEN table.name='P' or x.x='PP' THEN 'P'
+                WHEN table.name='F' THEN 'F'
                 ELSE null
             END as OverallGrade,
             TrainingCompetency.Name as CompetencyName,
             /*TrainingCompetencyAssessment.Grade as CompetencyGrade,   */
             CASE
-                WHEN TrainingCompetencyAssessment.Grade='1' THEN 1
-                WHEN TrainingCompetencyAssessment.Grade='2' THEN 2
-                WHEN TrainingCompetencyAssessment.Grade='3' THEN 3
-                WHEN TrainingCompetencyAssessment.Grade='4' THEN 4
+                WHEN ass.Grade='1' THEN 1
+                WHEN ass.Grade='2' THEN 2
+                WHEN ass.Grade='3' THEN 3
+                WHEN ass.Grade='4' THEN 4
                 ELSE null
             END as CompetencyGrade,
             AssessmentCrewMember.TrainingRecommended as RemedialTrainingRec,
